@@ -17,6 +17,20 @@
         <link href="css/styles.css" rel="stylesheet" />
     </head>
     <body id="page-top">
+		<?php
+			session_start();
+			if(isset($_SESSION["id"])){
+				if((time()-$_SESSION['last_time'])>60){
+					header('Location:logout.php');
+				}
+				else{
+					$_SESSION['last_time'] = time() ;
+				}
+			}
+			else{
+				header('location:index.php') ;
+			}
+		?>
         <!-- Navigation-->
 		<?php include "Create Table\\CreateTable.php"; ?>
         <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
@@ -32,7 +46,7 @@
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#department">Department</a></li>
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#timetable">Timetable</a></li>
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#contact">Contact</a></li>
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="index.php">Logout</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="logout.php" >Logout</a></li>
                     </ul>
                 </div>
             </div>

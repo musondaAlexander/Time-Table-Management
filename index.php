@@ -21,7 +21,7 @@
                     <input type="password" name="password" placeholder="Password">
                     <img src="Login//padlock.png" width="25">
                 </div>
-                <label class="remeber"><input type="checkbox">
+                <label class="remeber"><input type="checkbox" name="remember">
                     Remember Me</label>
 				<div>
 					<input type="submit" value="login" name="login"></label>
