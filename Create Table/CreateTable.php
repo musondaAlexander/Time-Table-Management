@@ -60,19 +60,6 @@
 		echo "Error creating table: " . $conn->error;
 	}
 
-	$sql = "CREATE TABLE IF NOT EXISTS course (
-	course_id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-	subject VARCHAR(30) NOT NULL,
-	duration DECIMAL(4,2) NOT NULL ,
-	instructor_id INT(6) UNSIGNED ,
-	reg_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-	FOREIGN KEY(instructor_id) REFERENCES Instructor(instructor_id)
-	)";
-
-	if ($conn->query($sql) === FALSE) {
-		echo "Error creating table: " . $conn->error;
-	}
-
 	$sql = "CREATE TABLE IF NOT EXISTS department (
 	dept_id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 	dept_name VARCHAR(30) NOT NULL,
@@ -84,6 +71,22 @@
 	if ($conn->query($sql) === FALSE) {
 		echo "Error creating table: " . $conn->error;
 	}
+
+	$sql = "CREATE TABLE IF NOT EXISTS course (
+	course_id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+	dept_id INT(6) UNSIGNED NOT NULL,
+	subject VARCHAR(30) NOT NULL,
+	duration DECIMAL(4,2) NOT NULL ,
+	instructor_id INT(6) UNSIGNED ,
+	reg_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	FOREIGN KEY(instructor_id) REFERENCES Instructor(instructor_id),
+	FOREIGN KEY(dept_id) REFERENCES department(dept_id)
+	)";
+
+	if ($conn->query($sql) === FALSE) {
+		echo "Error creating table: " . $conn->error;
+	}
+
 
 	$sql = "CREATE TABLE IF NOT EXISTS time (
 	time_id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,

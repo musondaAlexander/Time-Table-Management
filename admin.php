@@ -33,6 +33,12 @@
 		?>
         <!-- Navigation-->
 		<?php include "Create Table\\CreateTable.php"; ?>
+		<?php include 'Instructor\\Instructor.php';?>
+		<?php include 'Department\\Department.php';?>
+		<?php include 'TimeTable\\TimeTable.php';?>
+		<?php include 'Course\\Course.php';?>
+		<?php include 'ArraysFunctions\\arraysfunctions.php';?>
+		
         <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
             <div class="container">
                 <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
@@ -69,7 +75,6 @@
                 
                    
 
-					<?php include 'Instructor\\Instructor.php';?>
                 	<center>
                     <div class="Instructor_form">
                     	<form action="#Instructors" method="POST"> 
@@ -89,46 +94,6 @@
         </section>
 
 
-        <!-- Portfolio Grid-->
-        <section class="page-section bg-light" id="course">
-            <div class="container">
-                <div class="text-center">
-                    <h2 class="section-heading text-uppercase">Course</h2>
-                    <h3 class="section-subheading text-muted">Please Fill The Following Form for Course.</h3>
-                </div>
-                
-				
-				<?php include 'Course\\Course.php';?>
-                <center>
-                <div class="course_form">
-                    	<form action="#course" method="POST"> 
-                    		<input type="text" name="subject" placeholder="Subject Name"><br><br>
-                    		<input type="text" name="duration" placeholder="Study Duration"><br><br>
-                    		<div>
-                    			Instructor: <select name="instructor">
-								<?php			
-									$result = getInstructors() ;
-									if ($result->num_rows > 0) {
-										while($row = $result->fetch_assoc()) {
-											echo "<option>" . $row["name"] . "</option>";
-										}
-									} else {
-										echo "0 results";
-									}
-									$conn->close();
-								?>
-								</select>
-                    		</div>
-                    		<br><br>
-                    		<input type="submit" name="submitCourse" placeholder="Add"><br>
-                    	</form>
-                    </div>
-                </center>
-
-
-
-
-        </section>
         <!-- About-->
         <section class="page-section" id="department">
             <div class="container">
@@ -137,7 +102,6 @@
                     <h3 class="section-subheading text-muted">Please Fill The Following Form for Department.</h3>
                 </div>
                
-				<?php include 'Department\\Department.php';?>
                	<center><div class="department_form">
                     	<form action="#department" method="POST"> 
                     		<input type="text" name="department_name" placeholder="Department Name"><br><br>
@@ -150,6 +114,90 @@
 
 
         </section>
+
+		<?php include 'ArraysFunctions\\arraysfunctions.php';?>
+        <!-- Portfolio Grid-->
+        <section class="page-section bg-light" id="course">
+            <div class="container">
+                <div class="text-center">
+                    <h2 class="section-heading text-uppercase">Course</h2>
+                    <h3 class="section-subheading text-muted">Please Fill The Following Form for Course.</h3>
+                </div>
+                		
+                <center>
+                <div class="course_form">
+                    	<form action="#course" method="POST"> 
+                    		<input type="text" name="subjectC" placeholder="Subject Name"><br><br>
+                    		<input type="text" name="durationC" placeholder="Study Duration"><br><br>
+                    		Department:
+							<select id="departC" name="deptnameC" onchange="getSemesterSection(this.id,'semesterC','sectionC')">
+							<script>	
+								var depart = document.getElementById('departC');
+								for(var i=0 ; i<arraydepartment.length ; i++){
+									var newOption = document.createElement('option');
+									newOption.innerHTML = arraydepartment[i][0];
+									newOption.selected = true ;
+									depart.options.add(newOption);
+								}
+							</script>
+							</select>
+							<select id="semesterC" name="semesterC" onchange="getSection('departC',this.id,'sectionC')">
+							<script>
+								var semester = document.getElementById('semesterC');
+								var depart = document.getElementById('departC') ;
+								for(var i=0 ; i<arraydepartment.length ; i++){
+									for(var j=0 ; j<arraydepartment[i][1].length;j++){
+										if(arraydepartment[i][0]==depart.value){
+											var newOption = document.createElement('option');
+											newOption.innerHTML = arraydepartment[i][1][j];
+											newOption.selected = true ;
+											semester.options.add(newOption);
+										}
+									}
+								}
+							</script>	
+							</select>
+							<select id="sectionC" name="sectionC">
+							<script>
+								var semester = document.getElementById('semesterC');
+								var depart = document.getElementById('departC') ;
+								var section = document.getElementById('sectionC') ;
+								for(var i=0 ; i<arraydepartment.length ; i++){
+									for(var j=0 ; j<arraydepartment[i][1].length;j++){
+										if(arraydepartment[i][0]==depart.value & arraydepartment[i][1][j]==semester.value){
+											for(var m=0; m<arraydepartment[i][1][j].length ; m++ ){
+												var newOption = document.createElement('option');
+												newOption.innerHTML = arraydepartment[i][2][j][m];
+												newOption.selected = true ;
+												section.options.add(newOption);
+											}
+										}
+									}
+								}
+							</script>	
+							</select><br><br>
+							<div>
+                    			Instructor: <select name="instructorC">
+								<?php			
+									$result = getInstructors() ;
+									if ($result->num_rows > 0) {
+										while($row = $result->fetch_assoc()) {
+											echo "<option>" . $row["name"] . "</option>";
+										}
+									} else {
+										echo "0 results";
+									}
+								?>
+								</select>
+                    		</div>
+                    		<br><br>
+                    		<input type="submit" name="submitCourse" placeholder="Add"><br>
+                    	</form>
+                    </div>
+                </center>
+        </section>
+
+		<?php include 'ArraysFunctions\\arraysfunctions.php';?>
         <!-- Team-->
         <section class="page-section bg-light" id="timetable">
             <div class="container">
@@ -158,7 +206,6 @@
                     <h3 class="section-subheading text-muted">Please Fill The Following Form for TimeTable</h3>
                 </div>
                
-				<?php include 'TimeTable\\TimeTable.php';?>
                 <center>
                 <div class="timetable_form">	
 						<form action="#timetable" method="POST">      
@@ -169,7 +216,7 @@
 									for($inn=0 ; $inn<7 ; $inn++){
 										echo "<option>$days[$inn]</option>" ;
 									}
-								?>
+								?> 
 							</select>
 							<select id="time" name="time">
 								<?php	
@@ -180,6 +227,7 @@
 									}
 								?>
 							</select><br><br>
+						
 							Department:
 							<select id="depart" name="depart" onchange="getSemesterSection(this.id,'semester','section')">
 							<script>	
@@ -187,38 +235,10 @@
 								for(var i=0 ; i<arraydepartment.length ; i++){
 									var newOption = document.createElement('option');
 									newOption.innerHTML = arraydepartment[i][0];
+									newOption.selected = true ;
 									depart.options.add(newOption);
 								}
 							</script>
-							<script>
-								function getSemesterSection(s1,s2,s3){
-									var s1 = document.getElementById(s1);
-									var s2 = document.getElementById(s2);
-									var s3 = document.getElementById(s3);
-									s2.innerHTML = '' ;
-									s3.innerHTML = '' ;
-									for(var i=0 ; i<arraydepartment.length ; i++){
-										for(var j=0 ; j<arraydepartment[i][1].length;j++){
-											if(arraydepartment[i][0]==s1.value){
-												var newOption = document.createElement('option');
-												newOption.innerHTML = arraydepartment[i][1][j];
-												s2.options.add(newOption);
-											}
-										}
-									}
-									for(var i=0 ; i<arraydepartment.length ; i++){
-										for(var j=0 ; j<arraydepartment[i][1].length;j++){
-											if(arraydepartment[i][0]==s1.value & arraydepartment[i][1][j]==s2.value){
-												for(var m=0; m<arraydepartment[i][1][j].length ; m++ ){
-													var newOption = document.createElement('option');
-													newOption.innerHTML = arraydepartment[i][2][j][m];
-													s3.options.add(newOption);
-												}
-											}
-										}
-									}
-								}
-							</script>							
 							</select>
 							<select id="semester" name="semester" onchange="getSection('depart',this.id,'section')">
 							<script>
@@ -229,32 +249,14 @@
 										if(arraydepartment[i][0]==depart.value){
 											var newOption = document.createElement('option');
 											newOption.innerHTML = arraydepartment[i][1][j];
+											newOption.selected = true ;
 											semester.options.add(newOption);
 										}
 									}
 								}
 							</script>	
 							</select>
-							<script>
-								function getSection(s1,s2,s3){
-									var s1 = document.getElementById(s1);
-									var s2 = document.getElementById(s2);
-									var s3 = document.getElementById(s3);
-									s3.innerHTML = '' ;
-									for(var i=0 ; i<arraydepartment.length ; i++){
-										for(var j=0 ; j<arraydepartment[i][1].length;j++){
-											if(arraydepartment[i][0]==s1.value & arraydepartment[i][1][j]==s2.value){
-												for(var m=0; m<arraydepartment[i][1][j].length ; m++ ){
-													var newOption = document.createElement('option');
-													newOption.innerHTML = arraydepartment[i][2][j][m];
-													s3.options.add(newOption);
-												}
-											}
-										}
-									}
-								}
-							</script>
-							<select id="section" name="section">
+							<select id="section" name="section" onchange="getSubjectInstructor('depart','semester',this.id,'subject','instructor')">
 							<script>
 								var semester = document.getElementById('semester');
 								var depart = document.getElementById('depart') ;
@@ -262,9 +264,10 @@
 								for(var i=0 ; i<arraydepartment.length ; i++){
 									for(var j=0 ; j<arraydepartment[i][1].length;j++){
 										if(arraydepartment[i][0]==depart.value & arraydepartment[i][1][j]==semester.value){
-											for(var m=0; m<arraydepartment[i][1][j].length ; m++ ){
+											for(var m=0; m<arraydepartment[i][2][j].length ; m++ ){
 												var newOption = document.createElement('option');
 												newOption.innerHTML = arraydepartment[i][2][j][m];
+												newOption.selected = true ;
 												section.options.add(newOption);
 											}
 										}
@@ -275,38 +278,33 @@
 							Subject:
 							<select id="subject" name="subject" onchange="getInstructors(this.id,'instructor')">
 							<script>
-								var subj = document.getElementById('subject') ;
-								for(var index in arraysubject){
-									var newOption = document.createElement('option');
-									newOption.innerHTML = arraysubject[index];
-									subj.options.add(newOption);
-								}
-							</script>	
-							</select><br><br>
-							<script>
-								function getInstructors(s1,s2){
-									var s1 = document.getElementById(s1);
-									var s2 = document.getElementById(s2);
-									s2.innerHTML = '' ;
-									for(var index in arrayinstructor){
-										if(arraysubject[index]==s1.value){
-											var newOption = document.createElement('option');
-											newOption.innerHTML = arrayinstructor[index];
-											s2.options.add(newOption);
-										}
+								var s1 = document.getElementById('depart');
+								var s2 = document.getElementById('semester');
+								var s3 = document.getElementById('section');
+								var s4 = document.getElementById('subject');
+								s4.innerHTML = '' ;
+								var departmentid = s1.value+s2.value+s3.value ;
+								for(var index in arrayDeptSubject){
+									if(arrayDeptSubject[index].search(departmentid) != -1 ){
+										var sub = arrayDeptSubject[index].replace(departmentid,"") ;
+										for(var index in arraysubject){
+											if(sub==arraysubject[index]){
+												var newOption = document.createElement('option');
+												newOption.innerHTML = arraysubject[index];
+												newOption.selected = true ;
+												s4.options.add(newOption);					
+											}
+										}					
 									}
 								}
+							</script>			
+							</select><br><br>
+							<script>
 							</script>
 							Instructor:
 							<select id="instructor" name="instructor">
-							
 							<script>
-								var inst = document.getElementById('instructor');
-								for(var index in arrayinstructor){
-									var newOption = document.createElement('option');
-									newOption.innerHTML = arrayinstructor[index];
-									inst.options.add(newOption);
-								}
+								getInstructors('subject','instructor') ;
 							</script>
 							
 							</select><br><br>
