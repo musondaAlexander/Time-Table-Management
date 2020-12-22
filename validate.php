@@ -31,6 +31,10 @@
 					if($userpos=="Admin"){
 						header('Location:admin.php');
 					}
+					else if($userpos=="Student"){
+						header('Location:student.php');
+					}
+
 				}
 			$conn->close() ;	
 			} else {

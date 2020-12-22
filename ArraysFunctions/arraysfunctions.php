@@ -85,15 +85,28 @@
 		var s5o = document.getElementById(s5);
 		s4o.innerHTML = '' ;
 		s5o.innerHTML = '' ;
+		var subjectArrays = new Array();
+		var bool = true ; 
+		for(var i=0 ; i<arraysubject.length ; i++){
+			for(var j=i ; j<arraysubject.length ; j++){
+				if(arraysubject[i]==arraysubject[j] & i!=j){
+					bool = false ;
+					break ;
+				}
+			}	
+			if(bool==true){
+				subjectArrays.push(arraysubject[i]) ;
+			}
+			bool = true ;
+		}
 		var departmentid = s1o.value+s2o.value+s3o.value ;
 		for(var index in arrayDeptSubject){
 			if(arrayDeptSubject[index].search(departmentid) != -1 ){
 				var sub = arrayDeptSubject[index].replace(departmentid,"") ;
-				for(var index in arraysubject){
-					if(sub==arraysubject[index]){
+				for(var index in subjectArrays){
+					if(sub==subjectArrays[index]){
 						var newOption = document.createElement('option');
-						var optionSelected = document.createTextNode('');
-						newOption.innerHTML = arraysubject[index];
+						newOption.innerHTML = subjectArrays[index];
 						newOption.selected = true ;
 						s4o.options.add(newOption);					
 					}
