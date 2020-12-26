@@ -19,7 +19,7 @@
     <body id="page-top">
         <!-- Navigation-->
 		<?php
-			session_start();
+/*			session_start();
 			if(isset($_SESSION["id"])){
 				if((time()-$_SESSION['last_time'])>60){
 					header('Location:logout.php');
@@ -30,11 +30,12 @@
 			}
 			else{
 				header('location:index.php') ;
-			}
+			}*/
 		?>
 		
 		<?php include 'View\\view.php';?>
 		<?php include 'ArraysFunctions\\arraysfunctions.php';?>
+		<?php include 'Course\course.php';?>
 		
         <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
             <div class="container">
@@ -61,7 +62,8 @@
 			function f(){alert('hj')} ;
 		</script>
         <form method="POST">
-        	<b style=" margin-left: -8%;margin-right: 75%; ">Department: </b>
+        	<input type="radio" name='searchWith' value='department' style=" margin-left: 0%;margin-right: 8%; " checked>
+			<b style=" margin-left: -8%;margin-right: 75%; ">Department: </b>
 			<select id="departV" name="deptnameV" style=" margin-left: -75%; margin-top: -30%; " onchange="getSemesterSection(this.id,'semesterV','sectionV')">
 				<script>	
 					var depart = document.getElementById('departV');
@@ -108,10 +110,22 @@
 					}
 				</script>	
 			</select><br><br>
-            Instructor: </b>
+            <input type="radio" name='searchWith' value='instructor'>
+			<b  style=" margin-left: 0%;margin-right: 0%; ">Instructor: </b>
             <select name="InstructorV">
+				<?php			
+					$result = getInstructors() ;
+					if ($result->num_rows > 0) {
+						while($row = $result->fetch_assoc()) {
+							echo "<option>" . $row["name"] . "</option>";
+						}
+					} else {
+						echo "0 results";
+					}
+				?>
             </select>
-			<input type='submit' name='submitSearch' onsubmit='f()' value="Go">
+			<br><br>
+			<input type='submit' id='search' name='submitSearch' onsubmit='f()' value="Go" style="padding-right:10px;padding-left:10px">
         </form>
      <div class="tab"  id="tab" >
     <table id='viewtable' style="margin-left: 11%; margin-top: 6%; ">
@@ -139,7 +153,16 @@
                 Duration
             </th>
         </tr>
-		<?php if(isset($_POST['submitSearch'])){getData($_POST['deptnameV'],$_POST['semesterV'],$_POST['sectionV']) ;} ?>
+		<?php 
+			if(isset($_POST['submitSearch'])){
+				if($_POST['searchWith']=='department'){
+					getDataDepart($_POST['deptnameV'],$_POST['semesterV'],$_POST['sectionV']) ;	
+				}
+				if($_POST['searchWith']=='instructor'){
+					getDataInst($_POST['InstructorV']) ;	
+				}
+			} 
+		?>
     </table>
             </div>
         </header>

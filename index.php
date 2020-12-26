@@ -14,14 +14,14 @@
             <?php include 'validate.php'; ?>
 			<form method="post">
                 <div class="inputBx">
-                    <input type="text" name="id" placeholder="CMS-ID">
+                    <input type="text" name="id" placeholder="CMS-ID" value="<?php if(isset($_COOKIE["member_login"])) { echo $_COOKIE["member_login"]; } ?>">
                     <img src="Login//user.png" width="25">
                 </div>
                 <div class="inputBx">
                     <input type="password" name="password" placeholder="Password">
                     <img src="Login//padlock.png" width="25">
                 </div>
-                <label class="remeber"><input type="checkbox" name="remember">
+                <label class="remeber"><input type="checkbox" name="remember" <?php if(isset($_COOKIE["member_login"])) { ?> checked <?php } ?> >
                     Remember Me</label>
 				<div>
 					<input type="submit" value="login" name="login"></label>

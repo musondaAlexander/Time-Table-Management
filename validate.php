@@ -21,20 +21,27 @@
 
 			$result = $conn->query($sql);
 			if($result->num_rows >0){
-				while($row = $result->fetch_assoc()) { 
+				$row = $result->fetch_assoc(); 
 					$userid = $row['id'] ;	
 					$userpas =	$row['password'] ;
 					$userpos =	$row['position'] ;
-				}
 				
 				if($id==$userid && $pas==$userpas){
+					
+					if(!empty($_POST["remember"])) {
+						setcookie ("member_login",$_POST["id"],time()+ (10 * 365 * 24 * 60 * 60));
+					} else {
+						if(isset($_COOKIE["member_login"])) {
+							setcookie ("member_login","");
+						}
+					}
+					
 					if($userpos=="Admin"){
 						header('Location:admin.php');
 					}
 					else if($userpos=="Student"){
 						header('Location:student.php');
 					}
-
 				}
 			$conn->close() ;	
 			} else {

@@ -222,5 +222,6 @@
 	arrayinstructor = arrayinstructor.slice(0,arrayinstructor.length-1) ;
 	arraysubject = arraysubject.split("|");
 	arrayinstructor = arrayinstructor.split("|");
-	arrayDeptSubject = arrayDeptSubject.split("|") ;	
+	arrayDeptSubject = arrayDeptSubject.split("|") ;
+
 </script>
