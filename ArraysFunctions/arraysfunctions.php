@@ -76,6 +76,66 @@
 			}
 		}
 	}
+	function getInstructorsU(s1,s2,s3){
+		var s1 = document.getElementById(s1);
+		var s2 = document.getElementById(s2);
+		s2.innerHTML = '' ;
+		for(var index in arrayinstructor){
+			if(arraysubject[index]==s1.value && deptforsubject[index]==s3){
+				var newOption = document.createElement('option');
+				newOption.innerHTML = arrayinstructor[index];
+				newOption.selected = true ;
+				s2.options.add(newOption);
+			}
+		}
+	}
+
+	function getInstructorsA(s1,s2,s3){
+		var s1 = document.getElementById(s1);
+		var s2 = document.getElementById(s2);
+		s2.innerHTML = '' ;
+		for(var index in arrayinstructor){
+			if(arraysubject[index]==s1.value && deptforAdmin[index]==s3){
+				var newOption = document.createElement('option');
+				newOption.innerHTML = arrayinstructor[index];
+				newOption.selected = true ;
+				s2.options.add(newOption);
+			}
+		}
+	}
+
+	function getSubjectInstructorUpdate(s1,s2,s3,s4){
+		var s4o = document.getElementById(s4);
+		s4o.innerHTML = '' ;
+		var subjectArrays1 = new Array();
+		var bool = true ; 
+		for(var i=0 ; i<arraysubject.length ; i++){
+			for(var j=i ; j<arraysubject.length ; j++){
+				if(arraysubject[i]==arraysubject[j] & i!=j){
+					bool = false ;
+					break ;
+				}
+			}	
+			if(bool==true){
+				subjectArrays1.push(arraysubject[i]) ;
+			}
+			bool = true ;
+		}
+		var departmentid = s1+s2+s3 ;
+		for(var index in arrayDeptSubject){
+			if(arrayDeptSubject[index].search(departmentid) != -1 ){
+				var sub = arrayDeptSubject[index].replace(departmentid,"") ;
+				for(var index in subjectArrays1){
+					if(sub==subjectArrays1[index]){
+						var newOption = document.createElement('option');
+						newOption.innerHTML = subjectArrays1[index];
+						newOption.selected = true ;
+						s4o.options.add(newOption);					
+					}
+				}					
+			}
+		}
+	}
 
 	function getSubjectInstructor(s1,s2,s3,s4,s5){
 		var s1o = document.getElementById(s1);
@@ -113,7 +173,7 @@
 				}					
 			}
 		}
-		getInstructors(s4,s5);
+		getInstructorsA(s4,s5,s1o.value+s2o.value+s3o.value);
 	}
 			
 	var arraysubject =
@@ -126,7 +186,7 @@
 		if ($conn->connect_error) {
 			die("Connection failed: " . $conn->connect_error);
 		}
-		$sql = "SELECT CONCAT(firstname,' ',lastname) AS name , subject FROM course JOIN instructor USING(instructor_id) ORDER BY name";
+		$sql = "SELECT CONCAT(firstname,' ',lastname) AS name , subject FROM course JOIN instructor USING(instructor_id) ORDER BY name,subject";
 		$result = $conn->query($sql);
 		if($result->num_rows >0){
 			while($row = $result->fetch_assoc()) { 
@@ -152,7 +212,7 @@
 
 	var arrayinstructor =
 	"<?php	
-		$sql = "SELECT CONCAT(firstname,' ',lastname) AS name ,subject FROM course JOIN instructor USING(instructor_id) ORDER BY name";
+		$sql = "SELECT CONCAT(firstname,' ',lastname) AS name ,subject FROM course JOIN instructor USING(instructor_id) ORDER BY name,subject";
 		$result = $conn->query($sql);
 		if($result->num_rows >0){
 			while($row = $result->fetch_assoc()) { 
@@ -162,6 +222,31 @@
 			echo "0 results";
 		}
 	?>";	
+
+	var deptforsubject =
+	"<?php	
+		$sql = "SELECT CONCAT(firstname,' ',lastname) AS name ,subject,dept_id FROM course JOIN instructor USING(instructor_id) JOIN department using(dept_id) ORDER BY name,subject";
+		$result = $conn->query($sql);
+		if($result->num_rows >0){
+			while($row = $result->fetch_assoc()) { 
+				echo $row['dept_id'].'|';
+			}
+		} else {
+			echo "0 results";
+		}
+	?>";	
+	var deptforAdmin =
+	"<?php	
+		$sql = "SELECT CONCAT(firstname,' ',lastname) AS name ,subject,dept_name,semester,section FROM course JOIN instructor USING(instructor_id) JOIN department using(dept_id) ORDER BY name,subject";
+		$result = $conn->query($sql);
+		if($result->num_rows >0){
+			while($row = $result->fetch_assoc()) { 
+				echo $row['dept_name'].$row['semester'].$row['section'].'|';
+			}
+		} else {
+			echo "0 results";
+		}
+	?>";
 						
 	var arraydepartment =
 	"<?php	
@@ -219,8 +304,12 @@
 
 	arrayDeptSubject = arrayDeptSubject.slice(0,arrayDeptSubject.length-1) ;			
 	arraysubject = arraysubject.slice(0,arraysubject.length-1) ;
+	deptforsubject = deptforsubject.slice(0,deptforsubject.length-1) ;
+	deptforAdmin = deptforAdmin.slice(0,deptforAdmin.length-1) ;
 	arrayinstructor = arrayinstructor.slice(0,arrayinstructor.length-1) ;
 	arraysubject = arraysubject.split("|");
+	deptforsubject = deptforsubject.split("|");
+	deptforAdmin = deptforAdmin.split("|");
 	arrayinstructor = arrayinstructor.split("|");
 	arrayDeptSubject = arrayDeptSubject.split("|") ;
 

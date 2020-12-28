@@ -5,9 +5,10 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Admin Page</title>
+        <title>Admin Panel</title>
         <!-- Font Awesome icons (free version)-->
-        <script src="https://use.fontawesome.com/releases/v5.15.1/js/all.js" crossorigin="anonymous"></script>
+        <link rel="icon" type="image/x-icon" href="assets/img/topLogo1.png" />
+		<script src="https://use.fontawesome.com/releases/v5.15.1/js/all.js" crossorigin="anonymous"></script>
         <!-- Google fonts-->
         <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
         <link href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
@@ -36,8 +37,7 @@
 		<?php include 'Department\\Department.php';?>
 		<?php include 'TimeTable\\TimeTable.php';?>
 		<?php include 'Course\\Course.php';?>
-		<?php include 'ArraysFunctions\\arraysfunctions.php';?>
-		
+		<?php include 'ArraysFunctions\\arraysfunctions.php';?>		
         <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
             <div class="container">
                 <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
@@ -61,8 +61,13 @@
             <div class="container">
                 <div class="masthead-subheading" style="color: #000;">Academic Timetable!</div>
                 <div class="masthead-heading text-uppercase" style="color: #000;">Sukkur IBA University</div>
-                <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="#Instructors" style="background: #000;">Tell Me More</a>
-            </div>
+                <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" onclick="changeheaderview()" style="background: #000;">Tell Me More</a>
+				<script>
+					function changeheaderview(){
+						window.location = 'student.php' ;
+					}
+				</script>
+			</div>
         </header>
         <!-- Services-->
         <section class="page-section" id="Instructors">
@@ -275,35 +280,55 @@
 							</script>	
 							</select><br><br>
 							Subject:
-							<select id="subject" name="subject" onchange="getInstructors(this.id,'instructor')">
+							<select id="subject" name="subject">
 							<script>
-								var s1 = document.getElementById('depart');
-								var s2 = document.getElementById('semester');
-								var s3 = document.getElementById('section');
-								var s4 = document.getElementById('subject');
-								s4.innerHTML = '' ;
-								var departmentid = s1.value+s2.value+s3.value ;
+								var s1o = document.getElementById('depart');
+								var s2o = document.getElementById('semester');
+								var s3o = document.getElementById('section');
+								var s4o = document.getElementById('subject');
+								s4o.innerHTML = '' ;
+								var subjectArrays = new Array();
+								var bool = true ; 
+								for(var i=0 ; i<arraysubject.length ; i++){
+									for(var j=i ; j<arraysubject.length ; j++){
+										if(arraysubject[i]==arraysubject[j] & i!=j){
+											bool = false ;
+											break ;
+										}
+									}	
+									if(bool==true){
+										subjectArrays.push(arraysubject[i]) ;
+									}
+									bool = true ;
+								}
+								var departmentid = s1o.value+s2o.value+s3o.value ;
 								for(var index in arrayDeptSubject){
 									if(arrayDeptSubject[index].search(departmentid) != -1 ){
 										var sub = arrayDeptSubject[index].replace(departmentid,"") ;
-										for(var index in arraysubject){
-											if(sub==arraysubject[index]){
+										for(var index in subjectArrays){
+											if(sub==subjectArrays[index]){
 												var newOption = document.createElement('option');
-												newOption.innerHTML = arraysubject[index];
+												newOption.innerHTML = subjectArrays[index];
 												newOption.selected = true ;
-												s4.options.add(newOption);					
+												s4o.options.add(newOption);					
 											}
 										}					
 									}
 								}
+
+								document.getElementById('subject').onchange = function(){
+									getInstructorsA('subject','instructor',s1.value+s2.value+s3.value);
+								}
 							</script>			
 							</select><br><br>
-							<script>
-							</script>
 							Instructor:
 							<select id="instructor" name="instructor">
 							<script>
-								getInstructors('subject','instructor') ;
+								var s1 = document.getElementById('depart');
+								var s2 = document.getElementById('semester');
+								var s3 = document.getElementById('section');
+								getInstructorsA('subject','instructor',s1.value+s2.value+s3.value);
+								
 							</script>
 							
 							</select><br><br>
@@ -342,7 +367,7 @@
             <div class="container">
                 <div class="text-center">
                     <h2 class="section-heading text-uppercase">Contact Us</h2>
-                    <h3 class="section-subheading text-muted">Lorem ipsum dolor sit amet consectetur.</h3>
+                    <h3 class="section-subheading text-muted">For Feedback</h3>
                 </div>
                 <form id="contactForm" name="sentMessage" novalidate="novalidate">
                     <div class="row align-items-stretch mb-5">

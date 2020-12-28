@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
+	<link rel="icon" type="image/x-icon" href="assets/img/topLogo1.png" />
     <link rel="stylesheet" href="Login//style.css">
 
 </head>

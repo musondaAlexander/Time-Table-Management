@@ -37,9 +37,11 @@
 					}
 					
 					if($userpos=="Admin"){
+						$_SESSION['position'] = 'Admin' ;
 						header('Location:admin.php');
 					}
 					else if($userpos=="Student"){
+						$_SESSION['position'] = 'Student' ;
 						header('Location:student.php');
 					}
 				}

@@ -1,12 +1,82 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+    	<style>
+    			*
+				{
+				    padding: 0;
+				    margin: 0px;
+				}
+				
+				
+				td
+				{
+					background: rgba(0,0,0,0.3);
+				}
+
+				table, tr, th, td
+				{
+				    border: 1px solid white;
+				    border-collapse: collapse;
+				    text-align: center;
+				    
+				    color: white;
+				    font-size: 18px;
+				   
+				}
+				tr, th{
+				    padding: 15px;
+
+				    
+				}
+				#ttt
+				{
+				    padding-left: 80px;
+				    text-align: center;
+				    padding-right: 50px;
+				}
+				
+				#tab::-webkit-scrollbar {
+   					 display: none;
+				}
+
+				#tab
+				{
+					width: 1100px;
+					height: 400px;
+					order: scroll;
+					overflow-x:hidden;
+					overflow-y: auto;
+					margin-left: -1%;
+					
+				}
+				.dy
+				{
+					padding-right: 50px;
+				}
+				#dy
+				{
+					padding-right: 25px;
+					padding-left: 25px;
+				}
+				
+				th
+				{
+					position: sticky;
+					top : 0;
+					background: rgba(0,0,0,0.9);
+				}
+
+
+
+
+</style>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>TimeTable</title>
-		<link rel="icon" type="image/x-icon" href="assets/img/topLogo1.png" />
+        <title>Update</title>
+        <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico" />
         <!-- Font Awesome icons (free version)-->
         <script src="https://use.fontawesome.com/releases/v5.15.1/js/all.js" crossorigin="anonymous"></script>
         <!-- Google fonts-->
@@ -14,51 +84,28 @@
         <link href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
         <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
         <!-- Core theme CSS (includes Bootstrap)-->
-        <link href="css/styless.css" rel="stylesheet" />
+        <link href="css/sty.css" rel="stylesheet" />
     </head>
     <body id="page-top">
         <!-- Navigation-->
-		<?php
-			session_start();
-			if(isset($_SESSION["id"])){
-				if((time()-$_SESSION['last_time'])>60){
-					header('Location:logout.php');
-				}
-				else{
-					$_SESSION['last_time'] = time() ;
-				}
-			}
-			else{
-				header('location:index.php') ;
-			}
-		?>
-		
-		<?php include 'View\\view.php';?>
+		<?php include 'Update/Update.php';?>
+		<?php include 'Instructor\\Instructor.php';?>
+		<?php include 'Department\\Department.php';?>
+		<?php include 'TimeTable\\TimeTable.php';?>
+		<?php include 'Course\\Course.php';?>
 		<?php include 'ArraysFunctions\\arraysfunctions.php';?>
-		<?php include 'Course\course.php';?>
-		
-        <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+		<nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
             <div class="container">
+                <img src="assets/img/topLogo1.png" alt="" width="150px" height="150px" style="margin-left: -7%;margin-top: -2%;position: absolute;"/>
                 <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                     Menu
                     <i class="fas fa-bars ml-1"></i>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav text-uppercase ml-auto">
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" onclick='changeheaderback()' id='back1'>Back</a></li>
+                        
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#contact">Contact</a></li>
-						<li class="nav-item"><a class="nav-link js-scroll-trigger" href="logout.php" >Logout</a></li>
-						<script>
-							function changeheaderback(){
-								window.location = 'admin.php' ;
-							}
-							var position = "<?php echo $_SESSION['position'] ?>" ;
-							if(position=='Student'){
-								var s1 = document.getElementById('back1') ;
-								s1.style.visibility = "hidden" ;
-							}
-						</script>
-					</ul>
+                    </ul>
                 </div>
             </div>
         </nav>
@@ -69,114 +116,126 @@
 			        Time table
 			    </h2>
 			    <br>
-        <script>
-			function f(){alert('hj')} ;
-		</script>
-        <form method="POST">
-        	<input type="radio" name='searchWith' value='department' style=" margin-left: 0%;margin-right: 8%; " checked>
-			<b style=" margin-left: -8%;margin-right: 75%; ">Department: </b>
-			<select id="departV" name="deptnameV" style=" margin-left: -75%; margin-top: -30%; " onchange="getSemesterSection(this.id,'semesterV','sectionV')">
-				<script>	
-					var depart = document.getElementById('departV');
-					for(var i=0 ; i<arraydepartment.length ; i++){
-						var newOption = document.createElement('option');
-						newOption.innerHTML = arraydepartment[i][0];
-						newOption.selected = true ;
-						depart.options.add(newOption);
-					}
-				</script>
-			</select>
-			<select id="semesterV" name="semesterV" onchange="getSection('departV',this.id,'sectionV')">
-				<script>
-					var semester = document.getElementById('semesterV');
-					var depart = document.getElementById('departV') ;
-					for(var i=0 ; i<arraydepartment.length ; i++){
-						for(var j=0 ; j<arraydepartment[i][1].length;j++){
-							if(arraydepartment[i][0]==depart.value){
-								var newOption = document.createElement('option');
-								newOption.innerHTML = arraydepartment[i][1][j];
-								newOption.selected = true ;
-								semester.options.add(newOption);
-							}
-						}
-					}
-				</script>	
-			</select>
-			<select id="sectionV" name="sectionV">
-				<script>
-					var semester = document.getElementById('semesterV');
-					var depart = document.getElementById('departV') ;
-					var section = document.getElementById('sectionV') ;
-					for(var i=0 ; i<arraydepartment.length ; i++){
-						for(var j=0 ; j<arraydepartment[i][1].length;j++){
-							if(arraydepartment[i][0]==depart.value & arraydepartment[i][1][j]==semester.value){
-								for(var m=0; m<arraydepartment[i][1][j].length ; m++ ){
+				<form method="POST">
+        					<b style=" margin-left: -8%;margin-right: 75%; ">Department: </b>
+							<select id="deptnameU" name="deptnameU" style=" margin-left: -75%; margin-top: -30%; " onchange="getSemesterSection(this.id,'semesterU','sectionU')">
+							<script>	
+								var depart = document.getElementById('deptnameU');
+								for(var i=0 ; i<arraydepartment.length ; i++){
 									var newOption = document.createElement('option');
-									newOption.innerHTML = arraydepartment[i][2][j][m];
+									newOption.innerHTML = arraydepartment[i][0];
 									newOption.selected = true ;
-									section.options.add(newOption);
+									depart.options.add(newOption);
 								}
-							}
-						}
-					}
-				</script>	
-			</select><br><br>
-            <input type="radio" name='searchWith' value='instructor'>
-			<b  style=" margin-left: 0%;margin-right: 0%; ">Instructor: </b>
-            <select name="InstructorV">
-				<?php			
-					$result = getInstructors() ;
-					if ($result->num_rows > 0) {
-						while($row = $result->fetch_assoc()) {
-							echo "<option>" . $row["name"] . "</option>";
-						}
-					} else {
-						echo "0 results";
-					}
-				?>
-            </select>
-			<br><br>
-			<input type='submit' id='search' name='submitSearch' onsubmit='f()' value="Go" style="padding-right:10px;padding-left:10px">
+							</script>
+							</select>
+							<select id="semesterU" name="semesterU" onchange="getSection('deptnameU',this.id,'sectionU')">
+							<script>
+								var semester = document.getElementById('semesterU');
+								var depart = document.getElementById('deptnameU') ;
+								for(var i=0 ; i<arraydepartment.length ; i++){
+									for(var j=0 ; j<arraydepartment[i][1].length;j++){
+										if(arraydepartment[i][0]==depart.value){
+											var newOption = document.createElement('option');
+											newOption.innerHTML = arraydepartment[i][1][j];
+											newOption.selected = true ;
+											semester.options.add(newOption);
+										}
+									}
+								}
+							</script>	
+							</select>
+							<select id="sectionU" name="sectionU">
+							<script>
+								var semester = document.getElementById('semesterU');
+								var depart = document.getElementById('deptnameU') ;
+								var section = document.getElementById('sectionU') ;
+								for(var i=0 ; i<arraydepartment.length ; i++){
+									for(var j=0 ; j<arraydepartment[i][1].length;j++){
+										if(arraydepartment[i][0]==depart.value & arraydepartment[i][1][j]==semester.value){
+											for(var m=0; m<arraydepartment[i][2][j].length ; m++ ){
+												var newOption = document.createElement('option');
+												newOption.innerHTML = arraydepartment[i][2][j][m];
+												newOption.selected = true ;
+												section.options.add(newOption);
+											}
+										}
+									}
+								}
+							</script>	
+							</select><br><br>
+	               			<input type="submit" name="submitSearch" value="Search">
         </form>
-     <div class="tab"  id="tab" >
-    <table id='viewtable' style="margin-left: 11%; margin-top: 6%; ">
-        <tr id="headings" class="text-uppercase">
-            <th id="dy">
-                Day
-            </th>
-            <th id="ttt">
-                Time
-            </th>
-            <th>
-                Department
-            </th>
-           
-            <th>
-                Subject
-            </th>
-            <th>
-                Instructor
-            </th>
-            <th>
-                Room#
-            </th>
-            <th>
-                Duration
-            </th>
-        </tr>
-		<?php 
+        <br><br>
+        <form>
+        	
+       
+		<div class="tab"  id="tab" >
+					 
+			<?php
 			if(isset($_POST['submitSearch'])){
-				if($_POST['searchWith']=='department'){
-					getDataDepart($_POST['deptnameV'],$_POST['semesterV'],$_POST['sectionV']) ;	
+					$searchDepart = $_POST['deptnameU'] ;
+					$searchSemester = $_POST['semesterU'] ;
+					$searchSection = $_POST['sectionU'] ;
+				$sql = "SELECT day , time , subject , CONCAT(firstname,' ',lastname) AS name, block , room ,tb.dept_id as deptid,dept_name,semester,section FROM timetable as tb JOIN time USING(time_id) JOIN department USING(dept_id) JOIN course USING(course_id) JOIN instructor USING(instructor_id) WHERE dept_name='{$searchDepart}' AND semester='{$searchSemester}' AND section='{$searchSection}'";
+				$result = $GLOBALS["conn"]->query($sql);
+				if ($result->num_rows > 0) {
+				$i =0 ;
+				while($row = $result->fetch_assoc()) {
+					echo "<form method='POST'>
+					<input type='hidden' value=$searchDepart name='deptname'>
+					<input type='hidden' value=$searchSemester name='semester'>
+					<input type='hidden' value=$searchSection name='section'>
+					<input type='text' value='{$row['day']}' name='day'  readonly='true'>
+					<input type='text' value='{$row['time']}' name='time'  readonly='true'>";
+					echo "<select id='subject$i' name='subject'>
+							<script>
+								getSubjectInstructorUpdate('{$row['dept_name']}','{$row['semester']}','{$row['section']}','subject$i');
+								document.getElementById('subject$i').onchange = function(){	
+									getInstructorsU(this.id,'instructor$i','{$row['deptid']}') ;
+								}			
+							</script>			
+							</select>";
+					echo "
+					<select id='instructor$i' name='instructor'>
+							<script>
+								getInstructorsU('subject$i','instructor$i','{$row['deptid']}') ;
+							</script>";
+							
+					echo"</select> 
+							<select id='block$i' name='block'>
+							<script>	
+								var blck = document.getElementById('block$i') ;
+								for(var index in blocks){
+									var newOption = document.createElement('option');
+									newOption.innerHTML = blocks[index];
+									blck.options.add(newOption);
+								}
+								document.getElementById('block$i').onchange = function(){	
+									getRooms(this.id,'room$i') ;
+								}								
+							</script>";
+					echo"</select>
+							<select id='room$i' name='room'>
+							<script>	
+								var rom = document.getElementById('room$i') ;
+								for(var index in ab1){
+									var newOption = document.createElement('option');
+									newOption.innerHTML = ab1[index];
+									rom.options.add(newOption);
+								}
+							</script>";
+					echo"</select>
+						<input type='submit' value='Update' name='Update$i'>
+					</form>" ;
+					$i++ ;
 				}
-				if($_POST['searchWith']=='instructor'){
-					getDataInst($_POST['InstructorV']) ;	
-				}
-			} 
-		?>
-    </table>
-            </div>
-        </header>
+			}
+			}
+			?>	
+
+			</div>
+			</header>
         <!-- Services-->
        
         <!-- Clients-->

@@ -12,7 +12,7 @@
 	$servername = "localhost";
 	$username = "root";
 	$password = "";
-	$dbname = "LogData";
+	$dbname = "timetabledata";
 	$conn = new mysqli($GLOBALS['servername'],$GLOBALS['username'],$GLOBALS['password'],$dbname);
 	if ($conn->connect_error) {
 		die("Connection failed: " . $conn->connect_error);
@@ -33,7 +33,7 @@
 	$servername = "localhost";
 	$username = "root";
 	$password = "";
-	$dbname = "LogData";
+	$dbname = "timetabledata";
 	$conn = new mysqli($GLOBALS['servername'],$GLOBALS['username'],$GLOBALS['password'],$dbname);
 	if ($conn->connect_error) {
 		die("Connection failed: " . $conn->connect_error);
@@ -60,7 +60,7 @@
 		$servername = "localhost";
 		$username = "root";
 		$password = "";
-		$dbname = "LogData";
+		$dbname = "timetabledata";
 		$conn = new mysqli($GLOBALS['servername'],$GLOBALS['username'],$GLOBALS['password'],$dbname);
 		if ($conn->connect_error) {
 			die("Connection failed: " . $conn->connect_error);
@@ -81,7 +81,7 @@
 			$instructor = $_POST["instructor"] ;            
 			$block = $_POST["block"] ;            
 			$room = $_POST["room"] ;			
-			updateData("logdata","timetable",$day,$time,$department,$semester,$section,$subject,$instructor,$block,$room);
+			updateData("timetabledata","timetable",$day,$time,$department,$semester,$section,$subject,$instructor,$block,$room);
 		} 	
 	}
 
@@ -93,17 +93,12 @@
 					while($row = $result->fetch_assoc()) {
 						$timeid = $row["time_id"] ;
 					}
-			} else {
-			  echo "0 results";
-			}	
-			$sql = "SELECT dept_id FROM department WHERE dept_name='{$department}' AND semester= $semester AND section='{$section}'";
+			}			$sql = "SELECT dept_id FROM department WHERE dept_name='{$department}' AND semester= $semester AND section='{$section}'";
 			$result1 = $GLOBALS["conn"]->query($sql);
 			if ($result1->num_rows > 0) {
 					while($row1 = $result1->fetch_assoc()) {
 						$deptid = $row1["dept_id"] ;
 					}
-			} else {
-			  echo "0 results";
 			}	
 			$sql = "SELECT cid.course_id AS course FROM course AS cid JOIN instructor AS inst USING(instructor_id) WHERE cid.subject='{$subject}' AND CONCAT(inst.firstname,' ',inst.lastname)='{$instructor}'";
 			$result2 = $GLOBALS["conn"]->query($sql);
@@ -116,119 +111,7 @@
 			}	
 			$sql = "UPDATE ".$tablename." SET course_id=$courseid ,block= '{$block}', room=$room WHERE time_id=$timeid AND dept_id=$deptid ";
 			if ($GLOBALS['conn']->query($sql) === TRUE) {
-			  echo "Record updated successfully";
-			} else {
-			  echo "Error: " . $sql . "<br>" . $GLOBALS['conn']->error;
+				
 			}
 		}
-
-
-
-	$sql = "SELECT day , time , subject , CONCAT(firstname,' ',lastname) AS name, block , room ,dept_name,semester,section FROM timetable as tb JOIN time USING(time_id) JOIN course USING(course_id) JOIN department USING(dept_id) JOIN instructor USING(instructor_id) WHERE dept_id=1";
-	$result = $GLOBALS["conn"]->query($sql);
-	if ($result->num_rows > 0) {
-		$i =0 ;
-		while($row = $result->fetch_assoc()) {
-			echo "<form method='POST'>
-				<input type='text' value='{$row['day']}' name='day'  readonly='true'>
-				<input type='text' value='{$row['time']}' name='time'  readonly='true'>
-				<input type='text' value='{$row['dept_name']}' name='deptname'  readonly='true'>
-				<input type='text' value='{$row['semester']}' name='semester'  readonly='true'>
-				<input type='text' value='{$row['section']}' name='section'  readonly='true'>
-				<select id='subjectsubject$i' name='subject'>";								
-					$sql = "SELECT subject FROM course";
-					$result1 = $GLOBALS["conn"]->query($sql);
-					if($result1->num_rows >0){
-						while($row1 = $result1->fetch_assoc()) {
-							if($row['subject']==$row1['subject']){
-								$subjectz = $row1['subject'] ;			
-								echo "<option selected='selected'>".$row1['subject']."</option>";
-							}
-							else{
-								echo "<option>".$row1['subject']."</option>";
-							}
-						}
-					} else {
-						echo "0 results";
-					}
-				echo "</select>					
-					<script>
-					document.getElementById('subjectsubject$i').onchange = function(){
-							var s1 = document.getElementById('subjectsubject$i');
-							var s2 = document.getElementById('instructr$i');
-							s2.innerHTML = '' ;
-							for(var index in arrayinstructor){
-								if(arraysubject[index]==s1.value){
-								var newOption = document.createElement('option');
-								newOption.innerHTML = arrayinstructor[index];
-								s2.options.add(newOption);}
-							}}
-					</script>";
-				echo "</select>
-					<select id='instructr$i' name='instructor'>
-					<script>
-							var s1 = document.getElementById('subjectsubject$i');
-							var s2 = document.getElementById('instructr$i');
-							for(var index in arrayinstructor){
-								if(arraysubject[index]==s1.value){
-									var newOption = document.createElement('option');
-									newOption.innerHTML = arrayinstructor[index];
-									s2.options.add(newOption);
-								}
-							}
-					</script>";
-				echo "</select>
-				<select id='block$i' name='block'>";
-					$block = array("AB-I","AB-II","AB-III") ;
-					for($inn=0 ; $inn<3 ; $inn++){
-						if($row['block']==$block[$inn]){
-							echo "<option selected='selected'>$block[$inn]</option>" ;							
-						}
-						else{
-							echo "<option>$block[$inn]</option>" ;	
-						}
-					}
-				echo "</select>
-
-				<select id='room$i' name='room'>";	
-					$room = array(101,102,103,104,105,106,107,108,109,110,201,202,203,204,205,206,207,208,209,210,301,302,303,304,305,306,307,308,309,310) ;
-					for($inn=0 ; $inn<30 ; $inn++){
-						if($row['room']==$room[$inn]){
-							echo "<option selected='selected'>$room[$inn]</option>" ;
-						}
-						else{
-							echo "<option>$room[$inn]</option>" ;
-						}
-					}
-				echo "</select>
-					<script>
-						document.getElementById('block$i').onchange = function(){
-								var s1 = document.getElementById('block$i');
-								var s2 = document.getElementById('room$i');
-								s2.innerHTML = '' ;
-								if(s1.value=='AB-I'){
-									var ab=ab1 ;
-								}else if(s1.value=='AB-II'){
-									var ab=ab2 ;
-								}else{
-									var ab=ab3 ;	
-								}
-								for(var index in ab){
-									var newOption = document.createElement('option');
-									newOption.innerHTML = ab[index];
-									s2.options.add(newOption);
-								}					
-							}
-					</script>	
-				<input type='submit' value='Update' name='Update$i'>
-			</form>" ;
-			$i++ ;
-		}
-	} else {
-	  echo "0 results";
-	}	
-	$conn->close();
-	
-	?>
-</body>
-</html>
+?>

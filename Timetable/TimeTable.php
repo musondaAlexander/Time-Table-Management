@@ -58,5 +58,4 @@
 			echo "Error: " . $sql . "<br>" . $GLOBALS['conn']->error;
 		}
 	}
-	$conn->close();
 ?>
