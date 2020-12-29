@@ -1,5 +1,5 @@
 <?php
-	$servername = "ec2-54-165-164-38.compute-1.amazonaws.com" ;
+	$servername = "ec2-54-165-164-38.compute-1.amazonaws.com:5432" ;
 	$username = "xjjquyygxekumw" ;
 	$password = "6bdcc4ece64cad8352f077702c5d070e37c902d8945f102ec1ce40385e5042d4" ;
 
