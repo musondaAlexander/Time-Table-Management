@@ -18,7 +18,7 @@
 		$sql = "INSERT INTO department (dept_name, semester,section) VALUES ('{$name}','{$semester}','{$section}')";
 		if ($GLOBALS['conn']->query($sql) === TRUE) {
 		} else {
-			echo "Error: " . $sql . "<br>" . $conn->error;
+			echo "Error: " . $sql . "<br>" . $GLOBALS['conn']->error;
 		}
 	}
 ?>

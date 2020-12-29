@@ -19,7 +19,7 @@
 		$sql = "INSERT INTO instructor(firstname, lastname,email) VALUES ('{$fname}','{$lname}','{$email}')";
 		if ($GLOBALS['conn']->query($sql) === TRUE) {
 		} else {
-			echo "Error: " . $sql . "<br>" . $conn->error;
+			echo "Error: " . $sql . "<br>" . $GLOBALS['conn']->error;
 		}
 	}
 
