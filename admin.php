@@ -32,7 +32,6 @@
 			}
 		?>
         <!-- Navigation-->
-		<?php include "Create Table\\CreateTable.php"; ?>
 		<?php include 'Instructor\\Instructor.php';?>
 		<?php include 'Department\\Department.php';?>
 		<?php include 'TimeTable\\TimeTable.php';?>

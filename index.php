@@ -8,6 +8,7 @@
 
 </head>
 <body>
+	<?php include "Create Table\\CreateTable.php"; ?>
     <section>
     <div class="box">
         <div class="form">
