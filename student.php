@@ -65,7 +65,7 @@
         <!-- Masthead-->
         <header class="masthead" style="color: #000">
             <div class="container">
-                <h2 align="center" style="margin-top: -15%; color: yellow; ">
+                <h2 align="center" style="margin-top: -15%; color: yello; ">
 			        Time table
 			    </h2>
 			    <br>
