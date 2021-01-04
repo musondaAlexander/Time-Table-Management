@@ -4,7 +4,7 @@ University level time management system
     1. 021-19-0007 Muhammad Mubashir
     2. 051-19-0008 Irfanullah
 # Demo Video Link
-  https://youtu.be/pSnajfuJz1A
+ https://youtu.be/pSnajfuJz1A
  
 # Instruction to run the Project
     . Install PHP 8.00 Version
