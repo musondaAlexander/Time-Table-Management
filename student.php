@@ -1,6 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
+
     <head>
+		<style>
+		  		*
+				{
+				    padding: 0;
+				    margin: 0px;
+				}
+				
+				
+				td
+				{
+					background: rgba(0,0,0,0.6);
+				}
+
+				table, tr, th, td
+				{
+				    border: 2px outset white;
+				    border-collapse: collapse;
+				    text-align: center;
+				    
+				    color: white;
+				    font-size: 18px;
+				   
+				}
+				tr, th{
+				    padding: 15px;
+
+				    
+				}
+				#ttt
+				{
+				    padding-left: 80px;
+				    text-align: center;
+				    padding-right: 50px;
+				}
+				
+				#tab::-webkit-scrollbar {
+   					 display: none;
+				}
+
+				#tab
+				{
+					width: 1100px;
+					height: 400px;
+					order: scroll;
+					overflow-x:auto;
+					overflow-y: auto;
+					margin-left: -1%;
+					
+				}
+				.dy
+				{
+					padding-right: 50px;
+				}
+				#dy
+				{
+					padding-right: 25px;
+					padding-left: 25px;
+				}
+				
+				th
+				{
+					position: sticky;
+					top : 0;
+					background: rgba(0,0,0,0.7);
+				}
+
+
+
+		</style>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
@@ -19,7 +89,7 @@
     <body id="page-top">
         <!-- Navigation-->
 		<?php
-			session_start();
+/*			session_start();
 			if(isset($_SESSION["id"])){
 				if((time()-$_SESSION['last_time'])>60){
 					header('Location:logout.php');
@@ -31,6 +101,7 @@
 			else{
 				header('location:index.php') ;
 			}
+			*/
 		?>
 		
 		<?php include 'View\\view.php';?>
@@ -45,13 +116,10 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav text-uppercase ml-auto">
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" onclick='changeheaderback()' id='back1'>Back</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="admin.php" id='back1'>Home</a></li>
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#contact">Contact</a></li>
 						<li class="nav-item"><a class="nav-link js-scroll-trigger" href="logout.php" >Logout</a></li>
 						<script>
-							function changeheaderback(){
-								window.location = 'admin.php' ;
-							}
 							var position = "<?php echo $_SESSION['position'] ?>" ;
 							if(position=='Student'){
 								var s1 = document.getElementById('back1') ;

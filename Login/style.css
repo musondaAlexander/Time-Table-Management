@@ -115,11 +115,11 @@ section
     transform: scale(0.7);
     filter: invert(1);
 }
-.remeber
+.remember
 {
     position: relative;
     display:inline-block ;
-    color: #262626;
+    color: #ffeded;
     font-weight: 300;
     margin-bottom: 10px;
     cursor: pointer;

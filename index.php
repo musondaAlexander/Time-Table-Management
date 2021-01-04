@@ -8,6 +8,7 @@
 
 </head>
 <body>
+	<?php include "Create Table\\CreateTable.php"; ?>
     <section>
     <div class="box">
         <div class="form">
@@ -22,7 +23,7 @@
                     <input type="password" name="password" placeholder="Password">
                     <img src="Login//padlock.png" width="25">
                 </div>
-                <label class="remeber"><input type="checkbox" name="remember" <?php if(isset($_COOKIE["member_login"])) { ?> checked <?php } ?> >
+                <label class="remember"><input type="checkbox" name="remember" <?php if(isset($_COOKIE["member_login"])) { ?> checked <?php } ?> >
                     Remember Me</label>
 				<div>
 					<input type="submit" value="login" name="login"></label>

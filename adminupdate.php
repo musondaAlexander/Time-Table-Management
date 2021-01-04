@@ -1,76 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-    	<style>
-    			*
-				{
-				    padding: 0;
-				    margin: 0px;
-				}
-				
-				
-				td
-				{
-					background: rgba(0,0,0,0.3);
-				}
-
-				table, tr, th, td
-				{
-				    border: 1px solid white;
-				    border-collapse: collapse;
-				    text-align: center;
-				    
-				    color: white;
-				    font-size: 18px;
-				   
-				}
-				tr, th{
-				    padding: 15px;
-
-				    
-				}
-				#ttt
-				{
-				    padding-left: 80px;
-				    text-align: center;
-				    padding-right: 50px;
-				}
-				
-				#tab::-webkit-scrollbar {
-   					 display: none;
-				}
-
-				#tab
-				{
-					width: 1100px;
-					height: 400px;
-					order: scroll;
-					overflow-x:hidden;
-					overflow-y: auto;
-					margin-left: -1%;
-					
-				}
-				.dy
-				{
-					padding-right: 50px;
-				}
-				#dy
-				{
-					padding-right: 25px;
-					padding-left: 25px;
-				}
-				
-				th
-				{
-					position: sticky;
-					top : 0;
-					background: rgba(0,0,0,0.9);
-				}
-
-
-
-
-</style>
+<head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
@@ -84,7 +14,7 @@
         <link href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
         <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
         <!-- Core theme CSS (includes Bootstrap)-->
-        <link href="css/sty.css" rel="stylesheet" />
+        <link href="css/styless.css" rel="stylesheet" />
     </head>
     <body id="page-top">
         <!-- Navigation-->
@@ -96,15 +26,15 @@
 		<?php include 'ArraysFunctions\\arraysfunctions.php';?>
 		<nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
             <div class="container">
-                <img src="assets/img/topLogo1.png" alt="" width="150px" height="150px" style="margin-left: -7%;margin-top: -2%;position: absolute;"/>
                 <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                     Menu
                     <i class="fas fa-bars ml-1"></i>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav text-uppercase ml-auto">
-                        
+						<li class="nav-item"><a class="nav-link js-scroll-trigger" href="admin.php" id='back1'>Home</a></li>                        
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#contact">Contact</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="logout.php">Logout</a></li>
                     </ul>
                 </div>
             </div>
@@ -167,8 +97,6 @@
 	               			<input type="submit" name="submitSearch" value="Search">
         </form>
         <br><br>
-        <form>
-        	
        
 		<div class="tab"  id="tab" >
 					 
@@ -190,7 +118,7 @@
 					<input type='text' value='{$row['time']}' name='time'  readonly='true'>";
 					echo "<select id='subject$i' name='subject'>
 							<script>
-								getSubjectInstructorUpdate('{$row['dept_name']}','{$row['semester']}','{$row['section']}','subject$i');
+				getSubjectInstructorUpdate1('{$row['dept_name']}','{$row['semester']}','{$row['section']}','subject$i','{$row['subject']}');
 								document.getElementById('subject$i').onchange = function(){	
 									getInstructorsU(this.id,'instructor$i','{$row['deptid']}') ;
 								}			
@@ -209,6 +137,9 @@
 								for(var index in blocks){
 									var newOption = document.createElement('option');
 									newOption.innerHTML = blocks[index];
+									if(newOption.innerHTML=='{$row['block']}'){
+										newOption.selected= true ;
+									}
 									blck.options.add(newOption);
 								}
 								document.getElementById('block$i').onchange = function(){	
@@ -219,15 +150,14 @@
 							<select id='room$i' name='room'>
 							<script>	
 								var rom = document.getElementById('room$i') ;
-								for(var index in ab1){
-									var newOption = document.createElement('option');
-									newOption.innerHTML = ab1[index];
-									rom.options.add(newOption);
-								}
+								var newOption = document.createElement('option');
+								newOption.innerHTML = '{$row['room']}';
+								rom.options.add(newOption);
 							</script>";
 					echo"</select>
 						<input type='submit' value='Update' name='Update$i'>
-					</form>" ;
+						<input type='submit' value='Delete' name='Delete$i'>
+					</form><br>" ;
 					$i++ ;
 				}
 			}

@@ -12,10 +12,23 @@
 			$id = $_POST["id"] ;
 			$pas = $_POST["password"];
 			
+			if($id == "Admin" && $pas == "Admin"){
+				if(!empty($_POST["remember"])) {
+					setcookie ("member_login",$_POST["id"],time()+ (10 * 365 * 24 * 60 * 60));
+				} else {
+					if(isset($_COOKIE["member_login"])) {
+						setcookie ("member_login","");
+					}
+				}
+				$_SESSION['position'] = 'Admin' ;
+				header('Location:admin.php');
+			}
+			
 			$conn = new mysqli($servername, $username, $password, $dbname);
 			if ($conn->connect_error) {
 				die("Connection failed: " . $conn->connect_error);
 			}
+			
 			$sql = "SELECT id, password, position FROM data WHERE id='{$id}' AND password='{$pas}';";
 			$result = $conn->query($sql);
 

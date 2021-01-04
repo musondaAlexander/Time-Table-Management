@@ -136,6 +136,41 @@
 			}
 		}
 	}
+	
+	function getSubjectInstructorUpdate1(s1,s2,s3,s4,s5){
+		var s4o = document.getElementById(s4);
+		s4o.innerHTML = '' ;
+		var subjectArrays1 = new Array();
+		var bool = true ; 
+		for(var i=0 ; i<arraysubject.length ; i++){
+			for(var j=i ; j<arraysubject.length ; j++){
+				if(arraysubject[i]==arraysubject[j] & i!=j){
+					bool = false ;
+					break ;
+				}
+			}	
+			if(bool==true){
+				subjectArrays1.push(arraysubject[i]) ;
+			}
+			bool = true ;
+		}
+		var departmentid = s1+s2+s3 ;
+		for(var index in arrayDeptSubject){
+			if(arrayDeptSubject[index].search(departmentid) != -1 ){
+				var sub = arrayDeptSubject[index].replace(departmentid,"") ;
+				for(var index in subjectArrays1){
+					if(sub==subjectArrays1[index]){
+						var newOption = document.createElement('option');
+						newOption.innerHTML = subjectArrays1[index];
+						if(newOption.innerHTML==s5){
+							newOption.selected=true ;
+						}
+						s4o.options.add(newOption);					
+					}
+				}					
+			}
+		}
+	}
 
 	function getSubjectInstructor(s1,s2,s3,s4,s5){
 		var s1o = document.getElementById(s1);
@@ -192,10 +227,8 @@
 			while($row = $result->fetch_assoc()) { 
 				echo $row['subject']."|";
 			}
-		} else {
-			echo "0 results";
 		}
-	?>";
+		?>";
 
 	var arrayDeptSubject = 
 	"<?php	
@@ -205,10 +238,8 @@
 			while($row = $result->fetch_assoc()) { 
 				echo $row['dept_name'].$row['semester'].$row['section'].$row['subject']."|";
 			}
-		} else {
-			echo "0 results";
 		}
-	?>";
+		?>";
 
 	var arrayinstructor =
 	"<?php	
@@ -218,10 +249,8 @@
 			while($row = $result->fetch_assoc()) { 
 				echo $row['name'].'|';
 			}
-		} else {
-			echo "0 results";
 		}
-	?>";	
+		?>";	
 
 	var deptforsubject =
 	"<?php	
@@ -231,10 +260,8 @@
 			while($row = $result->fetch_assoc()) { 
 				echo $row['dept_id'].'|';
 			}
-		} else {
-			echo "0 results";
 		}
-	?>";	
+		?>";	
 	var deptforAdmin =
 	"<?php	
 		$sql = "SELECT CONCAT(firstname,' ',lastname) AS name ,subject,dept_name,semester,section FROM course JOIN instructor USING(instructor_id) JOIN department using(dept_id) ORDER BY name,subject";
@@ -243,10 +270,8 @@
 			while($row = $result->fetch_assoc()) { 
 				echo $row['dept_name'].$row['semester'].$row['section'].'|';
 			}
-		} else {
-			echo "0 results";
 		}
-	?>";
+		?>";
 						
 	var arraydepartment =
 	"<?php	
@@ -256,10 +281,8 @@
 			while($row = $result->fetch_assoc()) { 
 				echo $row['dept_name'].','.$row['semester'].','.$row['section'].'|';
 			}
-		} else {
-			echo "0 results";
 		}
-	?>";	
+		?>";	
 			
 	arraydepartment = arraydepartment.slice(0,arraydepartment.length-1) ;
 	arraydepartment = arraydepartment.split('|') ;

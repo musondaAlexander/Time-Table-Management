@@ -18,7 +18,7 @@
     </head>
     <body id="page-top">
 		<?php
-			session_start();
+		/*	session_start();
 			if(isset($_SESSION["id"])){
 				if((time()-$_SESSION['last_time'])>60){
 					header('Location:logout.php');
@@ -29,7 +29,7 @@
 			}
 			else{
 				header('location:index.php') ;
-			}
+			}*/
 		?>
         <!-- Navigation-->
 		<?php include "Create Table\\CreateTable.php"; ?>
@@ -37,6 +37,7 @@
 		<?php include 'Department\\Department.php';?>
 		<?php include 'TimeTable\\TimeTable.php';?>
 		<?php include 'Course\\Course.php';?>
+		<?php include 'Registration\\Registration.php';?>
 		<?php include 'ArraysFunctions\\arraysfunctions.php';?>		
         <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
             <div class="container">
@@ -46,6 +47,7 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav text-uppercase ml-auto">
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#Register" >Member</a></li>
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#Instructors" >Instructor</a></li>
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#course">Course</a></li>
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#department">Department</a></li>
@@ -61,14 +63,52 @@
             <div class="container">
                 <div class="masthead-subheading" style="color: #000;">Academic Timetable!</div>
                 <div class="masthead-heading text-uppercase" style="color: #000;">Sukkur IBA University</div>
-                <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" onclick="changeheaderview()" style="background: #000;">Tell Me More</a>
+                <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" onclick="changeheaderview()" style="background: #000;">View TimeTable</a>
+                <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" onclick="changeheaderview1()" style="background: #000;">Update TimeTable</a>
 				<script>
 					function changeheaderview(){
 						window.location = 'student.php' ;
 					}
+					function changeheaderview1(){
+						window.location = 'adminupdate.php' ;
+					}
 				</script>
 			</div>
         </header>
+
+        <!-- Services-->
+        <section class="page-section" id="Register">
+            <div class="container">
+                <div class="text-center">
+                    <h2 class="section-heading text-uppercase">Member</h2>
+                    <h3 class="section-subheading text-muted">Please Fill The Following Form for Registering member.</h3>
+                </div>
+                	<center>
+                    <div class="Register_form">
+                    	<form action="#Register" method="POST"> 
+                    		<input type="text" name="fname" placeholder="FirstName" required><br><br>
+                    		<input type="text" name="lname" placeholder="LastName" required><br><br>
+                    		<input type="text" name="email" placeholder="Email" required><br><br>
+                    		<input type="text" name="cms_id" placeholder="Id" required><br><br>
+                    		<input type="text" name="password" placeholder="Password" required><br><br>
+                    		Department:
+							<select name="position">
+								<option value="Admin">Admin</option>
+								<option value="Instructor">Instructor</option>
+								<option value="Student" selected>Student</option>
+							</select>
+							<br><br>
+							<input type="submit" name="submitMember" value="Add" ><br><br>
+                    	</form>
+                    </div>
+                </center>
+
+
+            </div>
+        </section>
+
+
+
         <!-- Services-->
         <section class="page-section" id="Instructors">
             <div class="container">
@@ -82,9 +122,9 @@
                 	<center>
                     <div class="Instructor_form">
                     	<form action="#Instructors" method="POST"> 
-                    		<input type="text" name="fname" placeholder="Instructor FirstName"><br><br>
-                    		<input type="text" name="lname" placeholder="Instructor LastName"><br><br>
-                    		<input type="text" name="email" placeholder="Instructor Email"><br><br>
+                    		<input type="text" name="fname" placeholder="Instructor FirstName" required><br><br>
+                    		<input type="text" name="lname" placeholder="Instructor LastName" required><br><br>
+                    		<input type="text" name="email" placeholder="Instructor Email" required><br><br>
                     		<input type="submit" name="submitInstructor" value="Add" ><br><br>
                     	</form>
                     </div>
@@ -108,9 +148,9 @@
                
                	<center><div class="department_form">
                     	<form action="#department" method="POST"> 
-                    		<input type="text" name="department_name" placeholder="Department Name"><br><br>
-                    		<input type="text" name="semester" placeholder="semester"><br><br>
-                    		<input type="text" name="section" placeholder="section"><br><br>
+                    		<input type="text" name="department_name" placeholder="Department Name" required><br><br>
+                    		<input type="text" name="semester" placeholder="semester" required><br><br>
+                    		<input type="text" name="section" placeholder="section" required><br><br>
                     		<input type="submit" name="submitDepartment" value="Add"><br><br>
                     	</form> 
                     </div></center>
@@ -131,10 +171,10 @@
                 <center>
                 <div class="course_form">
                     	<form action="#course" method="POST"> 
-                    		<input type="text" name="subjectC" placeholder="Subject Name"><br><br>
-                    		<input type="text" name="durationC" placeholder="Study Duration"><br><br>
+                    		<input type="text" name="subjectC" placeholder="Subject Name" required><br><br>
+                    		<input type="text" name="durationC" placeholder="Study Duration" required><br><br>
                     		Department:
-							<select id="departC" name="deptnameC" onchange="getSemesterSection(this.id,'semesterC','sectionC')">
+							<select id="departC" name="deptnameC" onchange="getSemesterSection(this.id,'semesterC','sectionC')" required oninvalid="this.setCustomValidity('First fill departments form!')">
 							<script>	
 								var depart = document.getElementById('departC');
 								for(var i=0 ; i<arraydepartment.length ; i++){
@@ -145,7 +185,7 @@
 								}
 							</script>
 							</select>
-							<select id="semesterC" name="semesterC" onchange="getSection('departC',this.id,'sectionC')">
+							<select id="semesterC" name="semesterC" onchange="getSection('departC',this.id,'sectionC')" required  oninvalid="this.setCustomValidity('First fill departments form!')">
 							<script>
 								var semester = document.getElementById('semesterC');
 								var depart = document.getElementById('departC') ;
@@ -161,7 +201,7 @@
 								}
 							</script>	
 							</select>
-							<select id="sectionC" name="sectionC">
+							<select id="sectionC" name="sectionC" required  oninvalid="this.setCustomValidity('First fill departments form!')">
 							<script>
 								var semester = document.getElementById('semesterC');
 								var depart = document.getElementById('departC') ;
@@ -181,7 +221,7 @@
 							</script>	
 							</select><br><br>
 							<div>
-                    			Instructor: <select name="instructorC">
+                    			Instructor: <select name="instructorC" required  oninvalid="this.setCustomValidity('First fill instructors form!')">
 								<?php			
 									$result = getInstructors() ;
 									if ($result->num_rows > 0) {
@@ -214,7 +254,7 @@
                 <div class="timetable_form">	
 						<form action="#timetable" method="POST">      
 							Time:
-							<select id="day" name="day">
+							<select id="day" name="day" required>
 								<?php
 									$days = array("Mon","Tue","Wed","Thu","Fri","Sat","Sun") ;
 									for($inn=0 ; $inn<7 ; $inn++){
@@ -222,7 +262,7 @@
 									}
 								?> 
 							</select>
-							<select id="time" name="time">
+							<select id="time" name="time" required>
 								<?php	
 									$time = array("01:00","01:30","02:00","02:30","03:00","03:30","04:00","04:30","05:00","05:30","06:00","06:30","07:00","07:30","08:00","08:30","09:00","09:30","10:00","10:30","11:00","11:30","12:00","12:30","13:00","13:30","14:00","14:30","15:00","15:30","16:00","16:30","17:00","17:30","18:00","18:30","19:00","19:30","20:00","20:30","21:00","21:30","22:00","22:30","23:00","23:30","24:00","24:30") ;
 									
@@ -233,7 +273,7 @@
 							</select><br><br>
 						
 							Department:
-							<select id="depart" name="depart" onchange="getSemesterSection(this.id,'semester','section')">
+							<select id="depart" name="depart" onchange="getSemesterSection(this.id,'semester','section')" required  oninvalid="this.setCustomValidity('First fill departments form!')">
 							<script>	
 								var depart = document.getElementById('depart');
 								for(var i=0 ; i<arraydepartment.length ; i++){
@@ -244,7 +284,7 @@
 								}
 							</script>
 							</select>
-							<select id="semester" name="semester" onchange="getSection('depart',this.id,'section')">
+							<select id="semester" name="semester" onchange="getSection('depart',this.id,'section')" required  oninvalid="this.setCustomValidity('First fill departments form!')">
 							<script>
 								var semester = document.getElementById('semester');
 								var depart = document.getElementById('depart') ;
@@ -260,7 +300,7 @@
 								}
 							</script>	
 							</select>
-							<select id="section" name="section" onchange="getSubjectInstructor('depart','semester',this.id,'subject','instructor')">
+							<select id="section" name="section" onchange="getSubjectInstructor('depart','semester',this.id,'subject','instructor')" required  oninvalid="this.setCustomValidity('First fill departments form!')">
 							<script>
 								var semester = document.getElementById('semester');
 								var depart = document.getElementById('depart') ;
@@ -280,7 +320,7 @@
 							</script>	
 							</select><br><br>
 							Subject:
-							<select id="subject" name="subject">
+							<select id="subject" name="subject" required  oninvalid="this.setCustomValidity('First fill subjects form!')">
 							<script>
 								var s1o = document.getElementById('depart');
 								var s2o = document.getElementById('semester');
@@ -322,7 +362,7 @@
 							</script>			
 							</select><br><br>
 							Instructor:
-							<select id="instructor" name="instructor">
+							<select id="instructor" name="instructor" required  oninvalid="this.setCustomValidity('First fill instructors form!')">
 							<script>
 								var s1 = document.getElementById('depart');
 								var s2 = document.getElementById('semester');

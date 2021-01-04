@@ -15,7 +15,12 @@
 		$section = $_POST["sectionC"] ;
 		$duration = $_POST["durationC"] ;
 		$instructor = $_POST["instructorC"] ;            
-		insertDataInCourse(getDepartmentID($deptname,$semester,$section),$subject,$duration,getInstructorsID($instructor));
+		if($deptname!="Null" && $semester!="Null" && $section!="Null"){
+			insertDataInCourse(getDepartmentID($deptname,$semester,$section),$subject,$duration,getInstructorsID($instructor));
+		}
+		else{
+			echo "First insert departments" ;
+		}
 	} 	
 				
 	FUNCTION getInstructorsID($instructorname){
