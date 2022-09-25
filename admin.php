@@ -68,7 +68,7 @@
 			<a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" onclick="changeheaderview1()" style="background: #000;">Update TimeTable</a>
 			<script>
 				function changeheaderview() {
-					window.location = 'student.php';
+					window.location = 'AdminTimeTable.php';
 				}
 
 				function changeheaderview1() {
