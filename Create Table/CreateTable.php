@@ -1,5 +1,5 @@
-<?php
-/*   
+ <?php
+     
 	$servername = "localhost" ;
 	$username = "alex" ;
 	$password = "alEx@2022@zuct" ;
@@ -11,22 +11,17 @@
 	if ($conn->connect_error) {
 		die("Connection failed: " . $conn->connect_error);
 	}
-
-	$sql = "CREATE DATABASE IF NOT EXISTS LoginData" ;
+		// code for creating the databse for the timetable database
+	$sql = "CREATE DATABASE IF NOT EXISTS TimeTableData";
 	if ($conn->query($sql) === FALSE) {
 		echo "Error creating database: " . $conn->error;
 	}
-	
-	$sql = "CREATE DATABASE IF NOT EXISTS TimeTableData" ;
-	if ($conn->query($sql) === FALSE) {
-		echo "Error creating database: " . $conn->error;
-	}
-
-	$conn = new mysqli($servername,$username,$password,"logindata");
+     
+	$conn = new mysqli($servername,$username,$password,"TimeTableData");
 	if ($conn->connect_error) {
 		die("Connection failed: " . $conn->connect_error);
 	}
-	
+
 	$sql = "CREATE TABLE IF NOT EXISTS data (
 	did INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 	firstname VARCHAR(30) NOT NULL,
@@ -42,12 +37,6 @@
 		echo "Error creating table: " . $conn->error;
 	}
 	
-	$conn->close() ;
-
-	$conn = new mysqli($servername,$username,$password,"TimeTableData");
-	if ($conn->connect_error) {
-		die("Connection failed: " . $conn->connect_error);
-	}
 
 	$sql = "CREATE TABLE IF NOT EXISTS instructor (
 	instructor_id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
@@ -126,4 +115,4 @@
 	}
 
 	$conn->close() ;
-*/
+

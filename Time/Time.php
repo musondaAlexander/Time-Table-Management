@@ -1,9 +1,9 @@
 <?php
 
 	$servername = "localhost";
-	$username = "root";
-	$password = "";
-	$dbname = "LogData";
+	$username = "alex";
+	$password = "alEx@2022@zuct";
+	$dbname = "timetabledata";
 	$tablename = "Time";
 	
 	$conn = new mysqli($GLOBALS['servername'],$GLOBALS['username'],$GLOBALS['password'],$dbname);

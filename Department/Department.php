@@ -1,7 +1,7 @@
 <?php
 	$servername = "localhost";
-	$username = "root";
-	$password = "";
+	$username = "alex";
+	$password = "alEx@2022@zuct";
 	$dbname = "timetabledata";
 	$conn = new mysqli($servername,$username,$password,$dbname);
 	if ($conn->connect_error) {
