@@ -1,7 +1,7 @@
 <?php
 	$servername = "localhost";
-	$username = "root";
-	$password = "";
+	$username = "alex";
+	$password = "alEx@2022@zuct";
 	if(isset($_POST['submitMember'])){
 		$firstname = $_POST["fname"] ;
 		$lastname = $_POST["lname"] ;
@@ -13,7 +13,7 @@
 	}
 	
 	FUNCTION insertData($fname,$lname,$email,$password,$cmsid,$position){
-		$conn1 = new mysqli($GLOBALS['servername'],$GLOBALS['username'],$GLOBALS['password'], 'logindata');
+		$conn1 = new mysqli($GLOBALS['servername'],$GLOBALS['username'],$GLOBALS['password'], 'timetabledata');
 		if ($conn1->connect_error) {
 		  die("Connection failed: " . $conn1->connect_error);
 		}

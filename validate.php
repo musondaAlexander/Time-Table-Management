@@ -1,8 +1,8 @@
 <?php
 	$servername = "localhost";
-	$username = "root";
-	$password = "";
-	$dbname = "logindata";
+	$username = "alex";
+	$password = "alEx@2022@zuct";
+	$dbname = "timetabledata";
 	session_start() ;
 	if(isset($_POST["login"])){
 		$_SESSION["id"] = $_POST["id"] ;
@@ -57,6 +57,11 @@
 						$_SESSION['position'] = 'Student' ;
 						header('Location:student.php');
 					}
+					else if($userpos=="Instructor"){
+						$_SESSION['position'] = 'Instructor' ;
+						header('Location:instructorView.php');
+					}
+				}
 				}
 			$conn->close() ;	
 			} else {
@@ -64,6 +69,5 @@
 			}
 		}else{
 			echo "Require all fields" ;	
-		}
-	}	
+		}	
 ?>
