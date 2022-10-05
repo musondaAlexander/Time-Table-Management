@@ -1,8 +1,28 @@
  <?php
-     
-	$servername = "localhost" ;
-	$username = "alex" ;
-	$password = "alEx@2022@zuct" ;
+    // For local development of the site 
+
+	// $servername = "localhost" ;
+	// $username = "alex" ;
+	// $password = "alEx@2022@zuct" ;
+	      /* From heroku to the server  */
+	  //Get Heroku ClearDB connection information
+$cleardb_url = parse_url(getenv("CLEARDB_DATABASE_URL"));
+$cleardb_server = $cleardb_url["host"];
+$cleardb_username = $cleardb_url["user"];
+$cleardb_password = $cleardb_url["pass"];
+$cleardb_db = substr($cleardb_url["path"],1);
+$active_group = 'default';
+$query_builder = TRUE;
+// Connect to DB
+//$conn = mysqli_connect($cleardb_server, $cleardb_username, $cleardb_password, $cleardb_db);v
+
+
+
+/** for local development */
+		$servername = $cleardb_server;
+		$username = $cleardb_username;
+		$password = $cleardb_password;
+		$dbname = $cleardb_db;
 
 	$days = array("Mon","Tue","Wed","Thu","Fri","Sat","Sun") ;
 	$time = array("01:00","01:30","02:00","02:30","03:00","03:30","04:00","04:30","05:00","05:30","06:00","06:30","07:00","07:30","08:00","08:30","09:00","09:30","10:00","10:30","11:00","11:30","12:00","12:30","13:00","13:30","14:00","14:30","15:00","15:30","16:00","16:30","17:00","17:30","18:00","18:30","19:00","19:30","20:00","20:30","21:00","21:30","22:00","22:30","23:00","23:30","24:00","24:30") ;
@@ -17,7 +37,7 @@
 		echo "Error creating database: " . $conn->error;
 	}
      
-	$conn = new mysqli($servername,$username,$password,"TimeTableData");
+	$conn = new mysqli($servername,$username,$password,$dbname);
 	if ($conn->connect_error) {
 		die("Connection failed: " . $conn->connect_error);
 	}
