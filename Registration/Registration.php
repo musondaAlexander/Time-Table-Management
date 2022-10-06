@@ -8,10 +8,10 @@
 	  //Get Heroku ClearDB connection information
 
 /** for local development */
-$servername = "us-cdbr-east-06.cleardb.net";
-$username = "beb5e1d2cd0e49";
-$password = "a60fad52";
-$dbname = "heroku_3ca43a23c94a4d6";
+      $servername = "us-cdbr-east-06.cleardb.net";
+	  $username = "beb5e1d2cd0e49";
+	  $password = "a60fad52";
+	  $dbname = "heroku_3ca43a23c94a4d6";
 	if(isset($_POST['submitMember'])){
 		$firstname = $_POST["fname"] ;
 		$lastname = $_POST["lname"] ;
@@ -23,7 +23,7 @@ $dbname = "heroku_3ca43a23c94a4d6";
 	}
 	
 	FUNCTION insertData($fname,$lname,$email,$password,$cmsid,$position){
-		$conn1 = new mysqli($GLOBALS['servername'],$GLOBALS['username'],$GLOBALS['password'], $dbname);
+		$conn1 = new mysqli($GLOBALS['servername'],$GLOBALS['username'],$GLOBALS['password'],"heroku_3ca43a23c94a4d6" );
 		if ($conn1->connect_error) {
 		  die("Connection failed: " . $conn1->connect_error);
 		}
